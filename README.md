@@ -16,13 +16,18 @@ A **Streamlit web interface** is included for interactive code analysis.
 
 ---
 
-## 🎯 Objectives
+## 🚀 Key Features
 
-- Apply compiler design concepts in a practical project
-- Perform static code analysis using AST and semantic rules
-- Extract meaningful features from source code
-- Train ML models to predict bug-prone programs
-- Provide an interactive UI using Streamlit
+- ✅ Lexical Analysis & Parsing (PLY)
+- 🌳 Abstract Syntax Tree (AST) construction
+- 🔀 Control Flow Graph (CFG) generation
+- 📊 Data Flow Analysis (use-before-init, dead assignments)
+- 🧮 Feature Extraction from compiler structures
+- 🤖 Machine Learning (Random Forest Classifier)
+- 🔍 Bug prediction with confidence score
+- 🧠 Hybrid Decision System (Rule-based + ML override)
+- 🌐 Streamlit Web Interface
+- 📈 Feature Importance Visualization
 
 ---
 
@@ -37,17 +42,22 @@ A **Streamlit web interface** is included for interactive code analysis.
 
 ---
 
-## 🤖 Machine Learning Models
+## 🤖 Machine Learning
 
-- Logistic Regression
-- Random Forest (Primary model)
-- Support Vector Machine (SVM)
+- Algorithms used:
+  - Logistic Regression
+  - Support Vector Machine (SVM)
+  - **Random Forest (Final Model)**
 
-**Evaluation Metrics**
-- Accuracy
-- Precision
-- Recall
-- F1-score
+- Evaluation Metrics:
+  - Accuracy
+  - Precision
+  - Recall
+  - F1-score
+
+- Hybrid decision:
+  - **Rule-based override** if no hard bugs exist
+  - ML used for risk estimation
 
 ---
 
@@ -61,59 +71,86 @@ A **Streamlit web interface** is included for interactive code analysis.
 
 ---
 
+## 🏗️ Project Architecture
+
+```
+Source Code
+   ↓
+Lexer → Parser
+   ↓
+AST Construction
+   ↓
+CFG + Data Flow Analysis
+   ↓
+Feature Extraction
+   ↓
+ML Model (Random Forest)
+   ↓
+Prediction (Clean / Buggy)
+```
+
+---
+
 ## 📂 Project Structure
 
 ```
-mini_c_analyzer/
+Compiler Project/
 │
-├── app.py
-├── lexer.py
-├── parser.py
-├── ast_nodes.py
-├── symbol_table.py
-├── semantic_analyzer.py
-├── feature_extractor.py
-├── predictor.py
-├── train_model.py
-├── ml_models.py
-├── rf_model.pkl
-├── scaler.pkl
-│
-├── dataset/
-│   └── code_features.csv
-│
-├── requirements.txt
+├── lexer_parser/        # Lexer & Parser (PLY)
+├── ast_nodes/           # AST Builder & Analyzer
+├── cfg/                 # Control Flow Graph Builder
+├── data_flow/           # Data Flow Analyzer
+├── features/            # Feature Extractor
+├── dataset/             # Dataset generators & CSV
+├── ml/                  # ML training, prediction & models
+├── web/                 # (Optional) Flask version
+├── streamlit_app.py     # Streamlit Web App
+├── main.py              # CLI entry point
 └── README.md
 ```
 
 ---
 
-## 🚀 How to Run
+## 📊 Dataset
 
-### 1️⃣ Install Dependencies
-```bash
-pip install -r requirements.txt
-```
+- Automatically generated (1000+ samples)
+- Clean & buggy code samples
+- Fully numeric and ML-ready
+- Labeled using rule-based heuristics (weak supervision)
 
-### 2️⃣ Train ML Model (Run Once)
-```bash
-python train_model.py
-```
-
-### 3️⃣ Run Streamlit App
-```bash
-streamlit run app.py
-```
+### Dataset Features
+- `ast_max_depth`
+- `unused_variables`
+- `if_statements`
+- `assignments`
+- `cfg_nodes`
+- `cfg_edges`
+- `use_before_init`
+- `dead_assignments`
+- `label` (0 = Clean, 1 = Buggy)
 
 ---
 
-## 🧪 Sample Mini-C Input
+## ▶️ How to Run (CLI)
 
-```c
-int x;
-if (x > 0) {
-    print(x);
-}
+### 1. Generate Dataset
+```bash
+python -m dataset.auto_dataset_generator
+```
+
+### 2. Train ML Model
+```bash
+python -m ml.train_model
+```
+
+### 3. Predict via CLI
+```bash
+python -m ml.predict
+```
+
+### 4. Run Full Pipeline
+```bash
+python main.py
 ```
 
 ---
@@ -158,21 +195,29 @@ Mini-C Code
 
 ---
 
-## ⚠ Limitations
+## 🧪 Supported Syntax
 
-- Supports only **Mini-C (subset of C)**
-- Static analysis only (no execution)
-- Small, manually labeled dataset
-- Academic-use focused
+✔ Variable declaration  
+✔ Assignment  
+✔ Arithmetic expressions  
+✔ Relational operators  
+✔ `if` statements  
+
+❌ Loops (`while`)  
+❌ Function calls (`print`)  
+
+(Handled gracefully with error messages)
 
 ---
 
-## 🔮 Future Enhancements
 
-- CFG & cyclomatic complexity
-- AST/CFG visualization
-- PDF/HTML report generation
-- Extended Mini-C grammar
+## 🔮 Future Work
+
+- Add loop support
+- Support function calls
+- Language extension (C++, Java)
+- CI/CD integration
+- Cloud deployment
 
 ---
 
